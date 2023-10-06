@@ -113,19 +113,19 @@ class _SignUpPageState extends State<SignUpPage> {
                             child: const Image(
                               image: AssetImage('images/พื้นหลัง1.jpg'),
                               fit: BoxFit
-                                  .contain, // ใช้ BoxFit.contain เพื่อให้รูปแสดงพอดีกับ Container
+                                  .fill, // ใช้ BoxFit.contain เพื่อให้รูปแสดงพอดีกับ Container
                             ),
                           ),
-                          Positioned(
-                            top: 30,
-                            left: 15,
-                            child: Container(
-                              padding: const EdgeInsets.all(20),
-                              height: 780,
-                              width: 380,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
+                          Positioned.fill(
+                            child: Center(
+                              child: Container(
+                                padding: const EdgeInsets.all(20),
+                                height: 650,
+                                width: 360,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
                               ),
                             ),
                           ),
@@ -139,7 +139,20 @@ class _SignUpPageState extends State<SignUpPage> {
                                 const SizedBox(
                                   height: 50,
                                 ),
-                                Center(child: Image.asset('images/KU.png')),
+                                Center(
+                                  child: Container(
+                                height: 130,
+                                width: 130,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    image: const DecorationImage(
+                                        image: AssetImage('images/KU.png'),
+                                        fit: BoxFit.cover)),
+                              )),
+                              const SizedBox(
+                                  height: 20,
+                                ), 
                                 TextField(
                                   controller: _fullNameController,
                                   decoration: InputDecoration(

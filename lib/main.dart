@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Image(
                           image: AssetImage('images/พื้นหลัง1.jpg'),
                           fit: BoxFit
-                              .contain, // ใช้ BoxFit.contain เพื่อให้รูปแสดงพอดีกับ Container
+                              .fill, // ใช้ BoxFit.contain เพื่อให้รูปแสดงพอดีกับ Container
                         ),
                       ),
                       Padding(
@@ -88,12 +88,12 @@ class _LoginPageState extends State<LoginPage> {
                           child: Column(
                             children: [
                               const SizedBox(
-                                height: 120,
+                                height: 100,
                               ),
                               Center(
                                   child: Container(
-                                height: 200,
-                                width: 200,
+                                height: 190,
+                                width: 190,
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
@@ -138,6 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                                     fontSize: 15,
                                   ),
                                 ),
+                                obscureText: true,
                               ),
                               const SizedBox(
                                 height: 15,

@@ -9,6 +9,8 @@ class ViewNotesPage extends StatefulWidget {
 }
 
 class _ViewNotesPageState extends State<ViewNotesPage> {
+  String? selectedHouse; // เพิ่มตัวแปรเก็บข้อมูลของโรงเรือนที่เลือก
+
   @override
   Widget build(BuildContext context) {
     return const Placeholder();

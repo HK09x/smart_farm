@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:smart_farm/edit_Info.dart';
 import 'package:smart_farm/house_page.dart';
 import 'package:smart_farm/main.dart';
+import 'package:smart_farm/note/add_note_page.dart';
 import 'package:smart_farm/note/note_page.dart';
 import 'package:smart_farm/profile/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   final User? user;
 
-  HomePage(this.user, {Key? key}) : super(key: key);
+  const HomePage(this.user, {Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -284,7 +285,7 @@ class _HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            ViewNotesPage(userUid: widget.user?.uid ?? ""),
+                            AddNotePage(userUid: widget.user?.uid ?? ""),
                       ),
                     );
                   },

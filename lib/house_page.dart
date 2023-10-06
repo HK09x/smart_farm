@@ -865,90 +865,90 @@ class _HousePageState extends State<HousePage> {
                         );
                       },
                     ),
-                    const SizedBox(
-                      height: 88,
-                    ),
-                    BottomNavigationBar(
-                      currentIndex: _currentIndex,
-                      onTap: (index) {
-                        setState(() {
-                          _currentIndex = index;
-                        });
-                        switch (index) {
-                          case 0:
-                            // เส้นทางสำหรับไอคอน "หน้าหลัก"
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(
-                                  widget.user, // ส่ง user ไปยัง HomePage
-                                ),
-                              ),
-                            );
-                            break;
+                    
+                   
+  
 
-                          case 1:
-                            // เส้นทางสำหรับไอคอน "Note"
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ViewNotesPage(
-                                  userUid: '',
-                                ),
-                              ),
-                            );
-                            break;
-                          case 2:
-                            // เส้นทางสำหรับไอคอน "Camera"
-                            break;
-                          case 3:
-                            // เส้นทางสำหรับไอคอน "ค้นหา"
-                            break;
-                          case 4:
-                            // เส้นทางสำหรับไอคอน "โปรไฟล์"
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProfilPage(),
-                              ),
-                            );
-                            break;
-                        }
-                      },
-                      items: const [
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.home),
-                          label: 'Home',
-                          backgroundColor: Color(0xFF2F4F4F),
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.note),
-                          label: 'Note',
-                          backgroundColor: Color(0xFF2F4F4F),
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.camera),
-                          label: 'Camera',
-                          backgroundColor: Color(0xFF2F4F4F),
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.search),
-                          label: 'Search',
-                          backgroundColor: Color(0xFF2F4F4F),
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.person),
-                          label: 'Profile',
-                          backgroundColor: Color(0xFF2F4F4F),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),
             );
           },
         ),
+        bottomNavigationBar: BottomNavigationBar(
+    currentIndex: _currentIndex,
+    onTap: (index) {
+      setState(() {
+        _currentIndex = index;
+      });
+      switch (index) {
+        case 0:
+          // เส้นทางสำหรับไอคอน "หน้าหลัก"
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomePage(
+                widget.user, // ส่ง user ไปยัง HomePage
+              ),
+            ),
+          );
+          break;
+        case 1:
+          // เส้นทางสำหรับไอคอน "Note"
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ViewNotesPage(
+                userUid: '',
+              ),
+            ),
+          );
+          break;
+        case 2:
+          // เส้นทางสำหรับไอคอน "Camera"
+          break;
+        case 3:
+          // เส้นทางสำหรับไอคอน "ค้นหา"
+          break;
+        case 4:
+          // เส้นทางสำหรับไอคอน "โปรไฟล์"
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProfilPage(),
+            ),
+          );
+          break;
+      }
+    },
+    items: const [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        label: 'Home',
+        backgroundColor: Color(0xFF2F4F4F),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.note),
+        label: 'Note',
+        backgroundColor: Color(0xFF2F4F4F),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.camera),
+        label: 'Camera',
+        backgroundColor: Color(0xFF2F4F4F),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.search),
+        label: 'Search',
+        backgroundColor: Color(0xFF2F4F4F),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        label: 'Profile',
+        backgroundColor: Color(0xFF2F4F4F),
+      ),
+    ],
+  ),
       ),
     );
   }

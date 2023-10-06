@@ -40,6 +40,8 @@ dependencies:
   cloud_firestore: ^4.9.3
   font_awesome_flutter: ^10.5.0
   intl: ^0.18.1
+  image_picker: ^1.0.4
+  firebase_storage: ^11.2.8
 
 dev_dependencies:
   flutter_test:
