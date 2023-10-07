@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:smart_farm/camera_page.dart';
 import 'package:smart_farm/edit_data_page.dart';
 import 'package:smart_farm/home_page.dart';
 import 'package:smart_farm/note/note_page.dart';
@@ -383,7 +384,7 @@ class _HousePageState extends State<HousePage> {
                           final latestDocument =
                               documents.first.data() as Map<String, dynamic>;
 
-                          final goodVegetable =
+                         final goodVegetable =
                               latestDocument['goodVegetable'] ?? '';
                           final badVegetable =
                               latestDocument['badVegetable'] ?? '';
@@ -472,7 +473,6 @@ class _HousePageState extends State<HousePage> {
                         }
                       },
                     ),
-                    
                     StreamBuilder<DocumentSnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('sensor_data')
@@ -711,13 +711,11 @@ class _HousePageState extends State<HousePage> {
                                         child: Row(
                                           children: [
                                             const Icon(Icons.lightbulb,
-                                            
                                                 size: 40),
                                             const SizedBox(
                                               width: 6,
                                             ),
                                             const Text(
-                                                                                           
                                               'หลอดไฟ',
                                               style: TextStyle(
                                                 color: Colors.white,
@@ -865,10 +863,6 @@ class _HousePageState extends State<HousePage> {
                         );
                       },
                     ),
-                    
-                   
-  
-
                   ],
                 ),
               ),
@@ -876,79 +870,86 @@ class _HousePageState extends State<HousePage> {
           },
         ),
         bottomNavigationBar: BottomNavigationBar(
-    currentIndex: _currentIndex,
-    onTap: (index) {
-      setState(() {
-        _currentIndex = index;
-      });
-      switch (index) {
-        case 0:
-          // เส้นทางสำหรับไอคอน "หน้าหลัก"
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomePage(
-                widget.user, // ส่ง user ไปยัง HomePage
-              ),
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+            switch (index) {
+              case 0:
+                // เส้นทางสำหรับไอคอน "หน้าหลัก"
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomePage(
+                      widget.user, // ส่ง user ไปยัง HomePage
+                    ),
+                  ),
+                );
+                break;
+              case 1:
+                // เส้นทางสำหรับไอคอน "Note"
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ViewNotesPage(user: widget.user),
+                  ),
+                );
+                break;
+              case 2:
+                // เส้นทางสำหรับไอคอน "Camera"
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  CameraPage(
+                           user: widget.user
+                           
+                          ),
+                        ),
+                      );
+                break;
+              case 3:
+                // เส้นทางสำหรับไอคอน "ค้นหา"
+                break;
+              case 4:
+                // เส้นทางสำหรับไอคอน "โปรไฟล์"
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(),
+                  ),
+                );
+                break;
+            }
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+              backgroundColor: Color(0xFF2F4F4F),
             ),
-          );
-          break;
-        case 1:
-          // เส้นทางสำหรับไอคอน "Note"
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ViewNotesPage(
-                userUid: '',
-              ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.note),
+              label: 'Note',
+              backgroundColor: Color(0xFF2F4F4F),
             ),
-          );
-          break;
-        case 2:
-          // เส้นทางสำหรับไอคอน "Camera"
-          break;
-        case 3:
-          // เส้นทางสำหรับไอคอน "ค้นหา"
-          break;
-        case 4:
-          // เส้นทางสำหรับไอคอน "โปรไฟล์"
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ProfilPage(),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.camera),
+              label: 'Camera',
+              backgroundColor: Color(0xFF2F4F4F),
             ),
-          );
-          break;
-      }
-    },
-    items: const [
-      BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label: 'Home',
-        backgroundColor: Color(0xFF2F4F4F),
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.note),
-        label: 'Note',
-        backgroundColor: Color(0xFF2F4F4F),
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.camera),
-        label: 'Camera',
-        backgroundColor: Color(0xFF2F4F4F),
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.search),
-        label: 'Search',
-        backgroundColor: Color(0xFF2F4F4F),
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.person),
-        label: 'Profile',
-        backgroundColor: Color(0xFF2F4F4F),
-      ),
-    ],
-  ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Search',
+              backgroundColor: Color(0xFF2F4F4F),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+              backgroundColor: Color(0xFF2F4F4F),
+            ),
+          ],
+        ),
       ),
     );
   }

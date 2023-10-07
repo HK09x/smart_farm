@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_farm/camera_page.dart';
 import 'package:smart_farm/edit_Info.dart';
 import 'package:smart_farm/house_page.dart';
 import 'package:smart_farm/main.dart';
@@ -11,7 +12,7 @@ import 'package:smart_farm/profile/profile_page.dart';
 class HomePage extends StatefulWidget {
   final User? user;
 
-  const HomePage(this.user, {Key? key}) : super(key: key);
+  HomePage(this.user, {Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -270,6 +271,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
+              SizedBox(height: 25,),
               SizedBox(
                 height: 35,
                 width: 375,
@@ -313,14 +315,24 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ViewNotesPage(
-                            userUid: '',
+                          builder: (context) =>  ViewNotesPage(
+                            user: widget.user
+                           
                           ),
                         ),
                       );
                       break;
                     case 2:
                       // เส้นทางสำหรับไอคอน "Camera"
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  CameraPage(
+                           user: widget.user
+                           
+                          ),
+                        ),
+                      );
                       break;
                     case 3:
                       // เส้นทางสำหรับไอคอน "ค้นหา"
@@ -330,7 +342,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfilPage(),
+                          builder: (context) => ProfilePage(),
                         ),
                       );
                       break;

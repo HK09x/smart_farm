@@ -7,6 +7,7 @@ import 'package:smart_farm/login/sign_up_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  
   runApp(const MyApp());
 }
 
