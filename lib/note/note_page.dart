@@ -157,7 +157,7 @@ class _ViewNotesPageState extends State<ViewNotesPage> {
                                 width: 100,
                                 height: 100,
                               ),
-                        const SizedBox(width: 20.0),
+                        const SizedBox(width: 15.0),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,7 +168,7 @@ class _ViewNotesPageState extends State<ViewNotesPage> {
                               Text('แปลงผักที่: $plot'),
                               Text('อุณหภูมิ : $temperature (°C)'),
                               Text('ความชื้น : $humidity (%)'),
-                              Text('ความชื้นในดิน : $soilMoisture (%)'),
+                              Text('ความชื้นในดิน : $soilMoisture(%)'),
                               Text('ผักที่รอด : $goodVegetable ต้น'),
                               Text('ผักที่เสีย : $badVegetable ต้น'),
                             ],

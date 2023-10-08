@@ -25,7 +25,7 @@ class _AddNotePageState extends State<AddNotePage> {
       TextEditingController(); // ช่องใส่จำนวนผักที่เสีย
   File? pickedImage;
   DateTime? selectedDate;
-
+  String? _currentImageUrl;
   void _addNote() async {
     final Timestamp dayTimestamp = selectedDate != null
         ? Timestamp.fromDate(selectedDate!)
@@ -163,65 +163,83 @@ class _AddNotePageState extends State<AddNotePage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(10),
                   child: Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(0),
-                          height: 130,
-                          width: 1000,
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(0),
-                                height: 40,
-                                width: 371,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4F4F),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      const Spacer(),
-                                      Expanded(
-                                        child: TextButton(
-                                          onPressed: () async {
-                                            _takePicture(); // ไปที่กล้องทันที
-                                          },
-                                          child: const Icon(
-                                            Icons.camera_alt_outlined,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Expanded(
-                                        child: TextButton(
-                                          onPressed: () async {
-                                            _pickImage(); // ไปที่แกลเลอรี่ทันที
-                                          },
-                                          child: const Icon(
-                                            Icons.picture_in_picture_outlined,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                      const Spacer()
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                       Container(
+  padding: const EdgeInsets.all(0),
+  height: 200,
+  width: 1000,
+  decoration: BoxDecoration(
+    color: Colors.grey,
+    borderRadius: BorderRadius.circular(16),
+  ),
+  child: Stack(
+    children: [
+      if (_currentImageUrl != null)
+        Positioned.fill(
+          child: Image.network(
+            _currentImageUrl!,
+            fit: BoxFit.cover, // ให้รูปภาพปรับขนาดเพื่อเต็มพื้นที่
+          ),
+        ),
+      if (pickedImage != null)
+        Positioned.fill(
+          child: Image.file(
+            pickedImage!,
+            fit: BoxFit.cover, // ให้รูปภาพปรับขนาดเพื่อเต็มพื้นที่
+          ),
+        ),
+      Positioned(
+        bottom: 0,
+        right: 0,
+        child: Container(
+          padding: const EdgeInsets.all(0),
+          height: 40,
+          width: 400,
+          decoration: BoxDecoration(
+            color: const Color(0xFF2F4F4F),
+            borderRadius: BorderRadius.circular(0),
+          ),
+          child: Center(
+            child: Row(
+              children: [
+                const Spacer(),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () async {
+                      _takePicture();
+                    },
+                    child: const Icon(
+                      Icons.camera_alt_outlined,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () async {
+                      _pickImage();
+                    },
+                    child: const Icon(
+                      Icons.picture_in_picture_outlined,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const Spacer()
+              ],
+            ),
+          ),
+        ),
+      ),
+    ],
+  ),
+),
+
                         const SizedBox(
                           height: 10,
                         ),

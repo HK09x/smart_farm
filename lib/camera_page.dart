@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:smart_farm/home_page.dart';
+import 'package:smart_farm/note/note_page.dart';
+import 'package:smart_farm/profile/profile_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CameraPage extends StatefulWidget {
@@ -13,6 +16,7 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
+  int _currentIndex = 0;
   Stream<DocumentSnapshot>? getSensorData(String houseName) {
     return FirebaseFirestore.instance
         .collection('sensor_data')
@@ -78,7 +82,9 @@ class _CameraPageState extends State<CameraPage> {
                                 const SizedBox(height: 9.0),
                                 Row(
                                   children: [
-                                    SizedBox(width: 10,),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     const Icon(
                                       Icons.camera,
                                       size: 40.0,
@@ -108,6 +114,85 @@ class _CameraPageState extends State<CameraPage> {
             ),
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          switch (index) {
+            case 0:
+              // เส้นทางสำหรับไอคอน "หน้าหลัก"
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(
+                    widget.user, // ส่ง user ไปยัง HomePage
+                  ),
+                ),
+              );
+              break;
+            case 1:
+              // เส้นทางสำหรับไอคอน "Note"
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ViewNotesPage(user: widget.user),
+                ),
+              );
+              break;
+            case 2:
+              // เส้นทางสำหรับไอคอน "Camera"
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CameraPage(user: widget.user),
+                ),
+              );
+              break;
+            case 3:
+              // เส้นทางสำหรับไอคอน "ค้นหา"
+              break;
+            case 4:
+              // เส้นทางสำหรับไอคอน "โปรไฟล์"
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfilePage(user: widget.user),
+                ),
+              );
+              break;
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Color(0xFF2F4F4F),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.description),
+            label: 'Note',
+            backgroundColor: Color(0xFF2F4F4F),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.camera),
+            label: 'Camera',
+            backgroundColor: Color(0xFF2F4F4F),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons
+                .more_time), // เปลี่ยนไอคอนเป็น "เวลา" หรือ "นาฬิกา" หรือไอคอนที่คุณต้องการ
+            label: 'Time',
+            backgroundColor: Color(0xFF2F4F4F),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+            backgroundColor: Color(0xFF2F4F4F),
+          ),
+        ],
       ),
     );
   }

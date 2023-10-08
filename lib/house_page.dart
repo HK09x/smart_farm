@@ -384,7 +384,7 @@ class _HousePageState extends State<HousePage> {
                           final latestDocument =
                               documents.first.data() as Map<String, dynamic>;
 
-                         final goodVegetable =
+                          final goodVegetable =
                               latestDocument['goodVegetable'] ?? '';
                           final badVegetable =
                               latestDocument['badVegetable'] ?? '';
@@ -899,14 +899,11 @@ class _HousePageState extends State<HousePage> {
               case 2:
                 // เส้นทางสำหรับไอคอน "Camera"
                 Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>  CameraPage(
-                           user: widget.user
-                           
-                          ),
-                        ),
-                      );
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CameraPage(user: widget.user),
+                  ),
+                );
                 break;
               case 3:
                 // เส้นทางสำหรับไอคอน "ค้นหา"
@@ -916,7 +913,7 @@ class _HousePageState extends State<HousePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfilePage(),
+                    builder: (context) => ProfilePage(user: widget.user),
                   ),
                 );
                 break;
@@ -929,7 +926,7 @@ class _HousePageState extends State<HousePage> {
               backgroundColor: Color(0xFF2F4F4F),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.note),
+              icon: Icon(Icons.description),
               label: 'Note',
               backgroundColor: Color(0xFF2F4F4F),
             ),
@@ -939,8 +936,9 @@ class _HousePageState extends State<HousePage> {
               backgroundColor: Color(0xFF2F4F4F),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
+              icon: Icon(Icons
+                  .more_time), // เปลี่ยนไอคอนเป็น "เวลา" หรือ "นาฬิกา" หรือไอคอนที่คุณต้องการ
+              label: 'Time',
               backgroundColor: Color(0xFF2F4F4F),
             ),
             BottomNavigationBarItem(
@@ -951,6 +949,7 @@ class _HousePageState extends State<HousePage> {
           ],
         ),
       ),
+      
     );
   }
 }

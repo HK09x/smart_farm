@@ -271,7 +271,9 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
-              SizedBox(height: 25,),
+              SizedBox(
+                height: 25,
+              ),
               SizedBox(
                 height: 35,
                 width: 375,
@@ -309,16 +311,22 @@ class _HomePageState extends State<HomePage> {
                   switch (index) {
                     case 0:
                       // เส้นทางสำหรับไอคอน "หน้าหลัก"
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(
+                            widget.user, // ส่ง user ไปยัง HomePage
+                          ),
+                        ),
+                      );
                       break;
                     case 1:
                       // เส้นทางสำหรับไอคอน "Note"
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>  ViewNotesPage(
-                            user: widget.user
-                           
-                          ),
+                          builder: (context) =>
+                              ViewNotesPage(user: widget.user),
                         ),
                       );
                       break;
@@ -327,10 +335,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>  CameraPage(
-                           user: widget.user
-                           
-                          ),
+                          builder: (context) => CameraPage(user: widget.user),
                         ),
                       );
                       break;
@@ -339,10 +344,10 @@ class _HomePageState extends State<HomePage> {
                       break;
                     case 4:
                       // เส้นทางสำหรับไอคอน "โปรไฟล์"
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfilePage(),
+                          builder: (context) => ProfilePage(user: widget.user),
                         ),
                       );
                       break;
@@ -355,7 +360,7 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: Color(0xFF2F4F4F),
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.note),
+                    icon: Icon(Icons.description),
                     label: 'Note',
                     backgroundColor: Color(0xFF2F4F4F),
                   ),
@@ -365,8 +370,8 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: Color(0xFF2F4F4F),
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.search),
-                    label: 'Search',
+                    icon: Icon(Icons.more_time),
+                    label: 'Time',
                     backgroundColor: Color(0xFF2F4F4F),
                   ),
                   BottomNavigationBarItem(

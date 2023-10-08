@@ -71,6 +71,51 @@ class _SignUpPageState extends State<SignUpPage> {
           'img': img,
           'info': info,
         });
+        final String house0 = 'house0'; // แก้ตามชื่อโรงเรือนที่ต้องการ
+        await FirebaseFirestore.instance
+            .collection('sensor_data')
+            .doc(uid)
+            .collection(house0)
+            .doc('plot')
+            .set({
+          'info': '',
+        });
+        final String house1 = 'house1'; // แก้ตามชื่อโรงเรือนที่ต้องการ
+        await FirebaseFirestore.instance
+            .collection('sensor_data')
+            .doc(uid)
+            .collection(house1)
+            .doc('plot')
+            .set({
+          'info': '',
+        });
+        final String house2 = 'house2'; // แก้ตามชื่อโรงเรือนที่ต้องการ
+        await FirebaseFirestore.instance
+            .collection('sensor_data')
+            .doc(uid)
+            .collection(house2)
+            .doc('plot')
+            .set({
+          'info': '',
+        });
+        final String house3 = 'house3'; // แก้ตามชื่อโรงเรือนที่ต้องการ
+        await FirebaseFirestore.instance
+            .collection('sensor_data')
+            .doc(uid)
+            .collection(house3)
+            .doc('plot')
+            .set({
+          'info': '',
+        });
+        final String house4 = 'house4'; // แก้ตามชื่อโรงเรือนที่ต้องการ
+        await FirebaseFirestore.instance
+            .collection('sensor_data')
+            .doc(uid)
+            .collection(house4)
+            .doc('plot')
+            .set({
+          'info': '',
+        });
 
         widget.callToSignIn();
         _isSignUpSuccess = true;
@@ -140,19 +185,19 @@ class _SignUpPageState extends State<SignUpPage> {
                                   height: 50,
                                 ),
                                 Center(
-                                  child: Container(
-                                height: 130,
-                                width: 130,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    image: const DecorationImage(
-                                        image: AssetImage('images/KU.png'),
-                                        fit: BoxFit.cover)),
-                              )),
-                              const SizedBox(
+                                    child: Container(
+                                  height: 130,
+                                  width: 130,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      image: const DecorationImage(
+                                          image: AssetImage('images/KU.png'),
+                                          fit: BoxFit.cover)),
+                                )),
+                                const SizedBox(
                                   height: 20,
-                                ), 
+                                ),
                                 TextField(
                                   controller: _fullNameController,
                                   decoration: InputDecoration(
