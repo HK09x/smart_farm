@@ -341,7 +341,7 @@ class _HomePageState extends State<HomePage> {
                       );
                       break;
                     case 3:
-                      // เส้นทางสำหรับไอคอน "ค้นหา"
+                      // เส้นทางสำหรับไอคอน "ตั้งเวลา"
                       Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -8,6 +8,7 @@ import 'package:smart_farm/login/change_password_page.dart';
 import 'package:smart_farm/main.dart';
 import 'package:smart_farm/note/note_page.dart';
 import 'package:smart_farm/profile/edit_profile_page.dart';
+import 'package:smart_farm/set_time_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final User? user;
@@ -56,6 +57,16 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Profile',
+          style: TextStyle(
+            fontSize: 24, // ปรับขนาดของข้อความตรงนี้
+          ),
+        ),
+        backgroundColor: const Color(0xFF2F4F4F),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(0),
@@ -75,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   SizedBox(
-                    height: 470,
+                    height: 410,
                     width: 415,
                     child: Container(
                       padding: const EdgeInsets.all(12),
@@ -83,31 +94,15 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: const Color(0xFF2F4F4F),
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Positioned(
-                        top: 0,
-                        left: 100,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              ' Profile',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 30,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                     
                     ),
                   ),
                   Positioned(
-                    top: 80,
-                    left: 30,
+                    top: 35,
+                    left: 40,
                     child: Container(
-                      height: 350,
-                      width: 350,
+                      height: 330,
+                      width: 330,
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
@@ -117,14 +112,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Column(
                           children: [
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Container(
                               height: 200,
                               width: 200,
                               padding: const EdgeInsets.all(0),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(80),
+                                borderRadius: BorderRadius.circular(50),
                                 image: DecorationImage(
                                   image: NetworkImage(img),
                                   fit: BoxFit.cover,
@@ -191,10 +186,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
               const SizedBox(
-                height: 30,
+                height: 40,
               ),
               const SizedBox(
-                height: 30,
+                height: 40,
               ),
               SizedBox(
                 height: 40,
@@ -360,6 +355,12 @@ class _ProfilePageState extends State<ProfilePage> {
               );
               break;
             case 3:
+            Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SetTimePage(user: widget.user),
+                        ),
+                      );
               break;
             case 4:
               Navigator.pushReplacement(

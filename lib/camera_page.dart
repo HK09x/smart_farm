@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_farm/home_page.dart';
 import 'package:smart_farm/note/note_page.dart';
 import 'package:smart_farm/profile/profile_page.dart';
+import 'package:smart_farm/set_time_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CameraPage extends StatefulWidget {
@@ -152,7 +153,13 @@ class _CameraPageState extends State<CameraPage> {
               );
               break;
             case 3:
-              // เส้นทางสำหรับไอคอน "ค้นหา"
+              // เส้นทางสำหรับไอคอน "ตั้งเวลา"
+              Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SetTimePage(user: widget.user),
+                        ),
+                      );
               break;
             case 4:
               // เส้นทางสำหรับไอคอน "โปรไฟล์"
