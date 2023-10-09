@@ -278,7 +278,7 @@ void _turnOffPumpAndLight(Building building) {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ตั้งเวลาเปิดปิมน้ำและหลอดไฟ'),
+        title: Text('การตั้งค่าเวลา'),
         backgroundColor: const Color(0xFF2F4F4F), // สีของ AppBar
       ),
       body: ListView.builder(
