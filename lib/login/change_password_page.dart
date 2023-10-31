@@ -5,6 +5,7 @@ class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ChangePasswordPageState createState() => _ChangePasswordPageState();
 }
 
@@ -64,14 +65,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     try {
                       await user.updatePassword(newPassword);
 
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Password changed successfully'),
                         ),
                       );
 
+                      // ignore: use_build_context_synchronously
                       Navigator.of(context).pop();
                     } catch (error) {
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Error changing password: $error'),
@@ -87,10 +91,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   }
                 }
               },
-              child: const Text('Save New Password'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF2F4F4F),
               ),
+              child: const Text('Save New Password'),
             ),
           ],
         ),

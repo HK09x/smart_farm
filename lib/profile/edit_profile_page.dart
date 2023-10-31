@@ -15,6 +15,7 @@ class EditProfilePage extends StatefulWidget {
       : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
@@ -163,7 +164,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18.0,
-                color: const Color(0xFF2F4F4F), // สีของข้อความ
+                color: Color(0xFF2F4F4F), // สีของข้อความ
               ),
             ),
             TextField(
@@ -181,7 +182,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18.0,
-                color: const Color(0xFF2F4F4F),
+                color: Color(0xFF2F4F4F),
               ),
             ),
             TextField(
@@ -199,7 +200,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18.0,
-                color: const Color(0xFF2F4F4F),
+                color: Color(0xFF2F4F4F),
               ),
             ),
             TextField(
@@ -235,6 +236,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           .doc(uid)
           .set(updatedProfile);
 
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     },
     style: ElevatedButton.styleFrom(

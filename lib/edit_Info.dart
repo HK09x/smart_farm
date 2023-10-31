@@ -1,4 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: file_names
+
+import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,7 @@ class EditInfoPage extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditInfoPageState createState() => _EditInfoPageState();
 }
 
@@ -76,6 +79,7 @@ class _EditInfoPageState extends State<EditInfoPage> {
                 widget.updateInfo(updatedInfo);
 
                 // ส่งค่า updatedInfo กลับไปยังหน้า HomePage
+                // ignore: use_build_context_synchronously
                 Navigator.pop(context, updatedInfo);
               },
               style: ElevatedButton.styleFrom(

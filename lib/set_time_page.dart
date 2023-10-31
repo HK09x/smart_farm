@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+enum BuildingAction { none, togglePump, toggleLight, togglePumpAndLight }
+
 class SetTimePage extends StatefulWidget {
   final User? user;
   const SetTimePage({Key? key, this.user}) : super(key: key);
@@ -20,9 +22,9 @@ class _SetTimePageState extends State<SetTimePage> {
   @override
   void initState() {
     super.initState();
-
+    _fetchUserTimers();
     // ใน initState สร้าง Timer เพื่อตรวจสอบเวลาทุก ๆ 1 นาที
-    timer = Timer.periodic(Duration(minutes: 1), (timer) {
+    timer = Timer.periodic(const Duration(minutes: 1), (timer) {
       final now = TimeOfDay.now();
 
       // ตรวจสอบเวลาของทุกโรงเรือนและส่งค่าไป Firebase Cloud Firestore โดยอัตโนมัติ
@@ -44,10 +46,80 @@ class _SetTimePageState extends State<SetTimePage> {
     });
   }
 
+  // เมื่อผู้ใช้ตั้งค่ารายการตั้งเวลาใหม่หรือลบรายการตั้งเวลา
+  // เรียก _updateUserTimers เพื่ออัปเดตข้อมูลใน Firestore
+  void _onUserTimersUpdated() {
+    _updateUserTimers();
+  }
+
+  Future<void> _updateUserTimers() async {
+    final userTimersData = {
+      'timers': buildings.map((building) {
+        return {
+          'name': building.name,
+          'startHour': building.startTime.hour,
+          'startMinute': building.startTime.minute,
+          'endHour': building.endTime.hour,
+          'endMinute': building.endTime.minute,
+          'selectedAction': building.selectedAction.index,
+        };
+      }).toList(),
+    };
+
+    await firestore
+        .collection('user_timers')
+        .doc(widget.user?.uid)
+        .set(userTimersData);
+  }
+
+  Future<void> _fetchUserTimers() async {
+    final userTimersDoc =
+        await firestore.collection('user_timers').doc(widget.user?.uid).get();
+
+    if (userTimersDoc.exists) {
+      final userTimersData = userTimersDoc.data() as Map<String, dynamic>;
+
+      setState(() {
+        buildings = (userTimersData['timers'] as List<dynamic>)
+            .map((timerData) => Building(
+                  name: timerData['name'],
+                  startTime: TimeOfDay(
+                      hour: timerData['startHour'],
+                      minute: timerData['startMinute']),
+                  endTime: TimeOfDay(
+                      hour: timerData['endHour'],
+                      minute: timerData['endMinute']),
+                  selectedAction:
+                      BuildingAction.values[timerData['selectedAction']],
+                ))
+            .toList();
+      });
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
     timer?.cancel(); // ยกเลิก Timer เมื่อหน้า SetTimePage ถูก dispose
+  }
+
+  Future<TimeOfDay?> _selectTime(
+      BuildContext context, TimeOfDay initialTime, String label) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
+      helpText: 'เลือกเวลา $label', // แสดง label ที่เพิ่มเข้ามา
+      cancelText: 'ยกเลิก',
+      confirmText: 'ยืนยัน',
+      initialEntryMode: TimePickerEntryMode.input,
+    );
+    return picked;
   }
 
   List<Building> buildings = [
@@ -55,7 +127,8 @@ class _SetTimePageState extends State<SetTimePage> {
         name: 'โรงเรือน 1',
         startTime: TimeOfDay.now(),
         endTime: TimeOfDay.now(),
-        selectedAction: BuildingAction.none), // เพิ่ม selectedAction ให้กับแต่ล่ะโรงเรือน
+        selectedAction:
+            BuildingAction.none), // เพิ่ม selectedAction ให้กับแต่ล่ะโรงเรือน
     Building(
         name: 'โรงเรือน 2',
         startTime: TimeOfDay.now(),
@@ -86,24 +159,54 @@ class _SetTimePageState extends State<SetTimePage> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('เลือกการทำงานสำหรับ ${building.name}'),
+          backgroundColor: Colors.blue, // สีพื้นหลังของ AlertDialog
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(16.0), // ปรับรูปร่างและขนาดของกล่อง
+          ),
+          title: Text(
+            'เลือกการทำงานสำหรับ ${building.name}',
+            style: const TextStyle(
+                color: Colors.white), // สีของข้อความใน AlertDialog
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 ListTile(
-                  title: Text('เปิดปิมน้ำอย่างเดียว'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        8.0), // ปรับรูปร่างและขนาดของตัวเลือก
+                  ),
+                  title: const Text(
+                    'เปิดปั้มน้ำอย่างเดียว',
+                    style: TextStyle(color: Colors.white), // สีของตัวเลือก
+                  ),
                   onTap: () {
                     Navigator.of(context).pop(BuildingAction.togglePump);
                   },
                 ),
                 ListTile(
-                  title: Text('เปิดหลอดไฟอย่างเดียว'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        8.0), // ปรับรูปร่างและขนาดของตัวเลือก
+                  ),
+                  title: const Text(
+                    'เปิดหลอดไฟอย่างเดียว',
+                    style: TextStyle(color: Colors.white), // สีของตัวเลือก
+                  ),
                   onTap: () {
                     Navigator.of(context).pop(BuildingAction.toggleLight);
                   },
                 ),
                 ListTile(
-                  title: Text('เปิดทั้งปิมน้ำและหลอดไฟ'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        8.0), // ปรับรูปร่างและขนาดของตัวเลือก
+                  ),
+                  title: const Text(
+                    'เปิดทั้งปั้มน้ำและหลอดไฟ',
+                    style: TextStyle(color: Colors.white), // สีของตัวเลือก
+                  ),
                   onTap: () {
                     Navigator.of(context)
                         .pop(BuildingAction.togglePumpAndLight);
@@ -113,11 +216,16 @@ class _SetTimePageState extends State<SetTimePage> {
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text('ยกเลิก'),
-              onPressed: () {
-                Navigator.of(context).pop(BuildingAction.none);
-              },
+            ButtonBar(
+              children: [
+                TextButton(
+                  child: const Text('ยกเลิก',
+                      style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
+                  onPressed: () {
+                    Navigator.of(context).pop(BuildingAction.none);
+                  },
+                ),
+              ],
             ),
           ],
         );
@@ -130,10 +238,95 @@ class _SetTimePageState extends State<SetTimePage> {
     });
   }
 
+void _showActionAndTimingDialog(Building building) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text('เลือกการทำงานและเวลาสำหรับ ${building.name}'),
+        content: Column(
+          children: [
+            ListTile(
+              title: Text('เปิดปั้มน้ำอย่างเดียว'),
+              onTap: () {
+                setState(() {
+                  building.selectedAction = BuildingAction.togglePump;
+                });
+                Navigator.of(context).pop();
+
+                // ใช้ TimeOfDay.now() เพื่อตั้งค่า initialTime เป็นเวลาปัจจุบัน
+                _selectTimeForBuilding(building, TimeOfDay.now(), TimeOfDay.now());
+              },
+            ),
+            ListTile(
+              title: Text('เปิดหลอดไฟอย่างเดียว'),
+              onTap: () {
+                setState(() {
+                  building.selectedAction = BuildingAction.toggleLight;
+                });
+                Navigator.of(context).pop();
+
+                // ใช้ TimeOfDay.now() เพื่อตั้งค่า initialTime เป็นเวลาปัจจุบัน
+                _selectTimeForBuilding(building, TimeOfDay.now(), TimeOfDay.now());
+              },
+            ),
+            ListTile(
+              title: Text('เปิดทั้งปั้มน้ำและหลอดไฟ'),
+              onTap: () {
+                setState(() {
+                  building.selectedAction = BuildingAction.togglePumpAndLight;
+                });
+                Navigator.of(context).pop();
+
+                // ใช้ TimeOfDay.now() เพื่อตั้งค่า initialTime เป็นเวลาปัจจุบัน
+                _selectTimeForBuilding(building, TimeOfDay.now(), TimeOfDay.now());
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            child: Text('ยกเลิก',style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _selectTimeForBuilding(
+    Building building, TimeOfDay startTime, TimeOfDay endTime) async {
+  final TimeOfDay? newStartTime = await _selectTime(
+    context,
+    startTime,
+    'เริ่มต้น',
+  );
+  if (newStartTime != null) {
+    setState(() {
+      building.startTime = newStartTime;
+    });
+  }
+
+  final TimeOfDay? newEndTime = await _selectTime(
+    context,
+    endTime,
+    'สิ้นสุด',
+  );
+  if (newEndTime != null) {
+    setState(() {
+      building.endTime = newEndTime;
+    });
+  }
+}
+
+
+
   void _performSelectedAction(Building building) {
     final now = TimeOfDay.now();
 
-    // ตรวจสอบ selectedAction และดำเนินการตามที่เลือก
     switch (building.selectedAction) {
       case BuildingAction.togglePump:
         _togglePump(building);
@@ -198,20 +391,22 @@ class _SetTimePageState extends State<SetTimePage> {
         .doc('plot')
         .set({'pump_state': 0, 'lamp_state': 1}, SetOptions(merge: true));
   }
-void _turnOffPumpAndLight(Building building) {
-  setState(() {
-    building.isPumpOn = false;
-    building.isLightOn = false;
-  });
 
-  // ส่งค่าปิดปั้มน้ำและหลอดไฟไปยัง Cloud Firestore เมื่อถึงเวลาสิ้นสุด
-  firestore
-      .collection('sensor_data')
-      .doc(widget.user?.uid)
-      .collection('house${buildings.indexOf(building)}')
-      .doc('plot')
-      .set({'pump_state': 0, 'lamp_state': 0}, SetOptions(merge: true));
-}
+  void _turnOffPumpAndLight(Building building) {
+    setState(() {
+      building.isPumpOn = false;
+      building.isLightOn = false;
+    });
+
+    // ส่งค่าปิดปั้มน้ำและหลอดไฟไปยัง Cloud Firestore เมื่อเปิดทั้งปั้มน้ำและหลอดไฟ
+    // ใช้ index ของโรงเรือนในการสร้างเส้นทาง
+    firestore
+        .collection('sensor_data')
+        .doc(widget.user?.uid)
+        .collection('house${buildings.indexOf(building)}')
+        .doc('plot')
+        .set({'pump_state': 0, 'lamp_state': 0}, SetOptions(merge: true));
+  }
 
   void _togglePumpAndLight(Building building) {
     setState(() {
@@ -219,7 +414,7 @@ void _turnOffPumpAndLight(Building building) {
       building.isLightOn = true;
     });
 
-    // ส่งค่า pump_state และ lamp_state ไปยัง Cloud Firestore เมื่อเปิดทั้งปั้มน้ำและหลอดไฟ
+    // ส่งค่า lamp_state และ pump_state ไปยัง Cloud Firestore เมื่อเปิดทั้งปั้มน้ำและหลอดไฟ
     // ใช้ index ของโรงเรือนในการสร้างเส้นทาง
     firestore
         .collection('sensor_data')
@@ -229,117 +424,131 @@ void _turnOffPumpAndLight(Building building) {
         .set({'pump_state': 1, 'lamp_state': 1}, SetOptions(merge: true));
   }
 
-  void _turnOffPump(Building building) {
-    setState(() {
-      building.isPumpOn = false;
-      building.isLightOn = false;
-    });
-
-    // ส่งค่าปิดปั้มน้ำไปยัง Cloud Firestore เมื่อถึงเวลาสิ้นสุด
-    firestore
-        .collection('sensor_data')
-        .doc(widget.user?.uid)
-        .collection('house${buildings.indexOf(building)}')
-        .doc('plot')
-        .set({'pump_state': 0, 'lamp_state': 0}, SetOptions(merge: true));
-  }
-
-  void _turnOffLight(Building building) {
-    setState(() {
-      building.isPumpOn = false;
-      building.isLightOn = false;
-    });
-
-    // ส่งค่าปิดหลอดไฟไปยัง Cloud Firestore เมื่อถึงเวลาสิ้นสุด
-    firestore
-        .collection('sensor_data')
-        .doc(widget.user?.uid)
-        .collection('house${buildings.indexOf(building)}')
-        .doc('plot')
-        .set({'pump_state': 0, 'lamp_state': 0}, SetOptions(merge: true));
-  }
-
   void _turnOffBuilding(Building building) {
     setState(() {
       building.isPumpOn = false;
       building.isLightOn = false;
+      building.selectedAction = BuildingAction.none;
     });
 
-    // ส่งค่าปิดโรงเรือนไปยัง Cloud Firestore เมื่อถึงเวลาสิ้นสุด
+    // ส่งค่าปิดทุกอย่างไปยัง Cloud Firestore เมื่อถึงเวลาสิ้นสุด
+    // ใช้ index ของโรงเรือนในการสร้างเส้นทาง
     firestore
         .collection('sensor_data')
         .doc(widget.user?.uid)
         .collection('house${buildings.indexOf(building)}')
         .doc('plot')
         .set({'pump_state': 0, 'lamp_state': 0}, SetOptions(merge: true));
+  }
+
+  void _turnOffPump(Building building) {
+    setState(() {
+      building.isPumpOn = false;
+    });
+
+    // ส่งค่าปิดปั้มน้ำไปยัง Cloud Firestore เมื่อถึงเวลาสิ้นสุด
+    // ใช้ index ของโรงเรือนในการสร้างเส้นทาง
+    firestore
+        .collection('sensor_data')
+        .doc(widget.user?.uid)
+        .collection('house${buildings.indexOf(building)}')
+        .doc('plot')
+        .set({'pump_state': 0}, SetOptions(merge: true));
+  }
+
+  void _turnOffLight(Building building) {
+    setState(() {
+      building.isLightOn = false;
+    });
+
+    // ส่งค่าปิดหลอดไฟไปยัง Cloud Firestore เมื่อถึงเวลาสิ้นสุด
+    // ใช้ index ของโรงเรือนในการสร้างเส้นทาง
+    firestore
+        .collection('sensor_data')
+        .doc(widget.user?.uid)
+        .collection('house${buildings.indexOf(building)}')
+        .doc('plot')
+        .set({'lamp_state': 0}, SetOptions(merge: true));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('การตั้งค่าเวลา'),
-        backgroundColor: const Color(0xFF2F4F4F), // สีของ AppBar
-      ),
-      body: ListView.builder(
-        itemCount: buildings.length,
-        itemBuilder: (BuildContext context, int index) {
-          final building = buildings[index];
-          return Card(
-            child: ListTile(
-              title: Text(building.name),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('เวลาเริ่ม: ${building.startTime.format(context)}'),
-                  Text('เวลาสิ้นสุด: ${building.endTime.format(context)}'),
-                ],
-              ),
-              onTap: () async {
-                await _showActionDialog(building); // แสดงก่อนที่จะตั้งเวลา
-                final startTime =
-                    await _selectTime(context, building.startTime);
-                final endTime = await _selectTime(context, building.endTime);
-
-                if (startTime != null && endTime != null) {
-                  setState(() {
-                    building.startTime = startTime;
-                    building.endTime = endTime;
-                  });
-                }
+        appBar: AppBar(
+          title: const Text('ตั้งค่าเวลา'),
+          backgroundColor: const Color(0xFF2F4F4F), // ตั้งสีของ AppBar ที่นี่
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.save),
+              tooltip: 'บันทึก',
+              onPressed: () {
+                _onUserTimersUpdated();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('บันทึกสำเร็จ')),
+                );
               },
             ),
-          );
-        },
-      ),
-    );
+          ],
+        ),
+        body: ListView.builder(
+          itemCount: buildings.length,
+          itemBuilder: (context, index) {
+            return Card(
+              margin: const EdgeInsets.all(8.0),
+              child: ListTile(
+                title: Text(
+                  'เวลาสำหรับ ${buildings[index].name}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  'ตั้งแต่ ${buildings[index].startTime.format(context)} ถึง ${buildings[index].endTime.format(context)}\n'
+                  'สถานะ: ${_getActionText(buildings[index])}',
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.access_alarm),
+                  tooltip: 'แก้ไขการทำงาน',
+                  onPressed: () {
+                    _showActionAndTimingDialog(buildings[index]);
+                  },
+                ),
+                onTap: () {
+                  // เพิ่มโค้ดเมื่อแตะที่แถวเพื่อเลือกเวลาหรือแก้ไข
+                  _showActionAndTimingDialog(buildings[index]);
+                },
+              ),
+            );
+          },
+        ));
+  }
+
+  String _getActionText(Building building) {
+    switch (building.selectedAction) {
+      case BuildingAction.togglePump:
+        return 'เปิดปั้มน้ำอย่างเดียว';
+      case BuildingAction.toggleLight:
+        return 'เปิดหลอดไฟอย่างเดียว';
+      case BuildingAction.togglePumpAndLight:
+        return 'เปิดทั้งปั้มน้ำและหลอดไฟ';
+      default:
+        return 'ไม่มีการทำงาน';
+    }
   }
 }
-
-enum BuildingAction { none, togglePump, toggleLight, togglePumpAndLight }
 
 class Building {
   final String name;
   TimeOfDay startTime;
   TimeOfDay endTime;
+  BuildingAction selectedAction;
   bool isPumpOn;
   bool isLightOn;
-  BuildingAction selectedAction; // เพิ่ม selectedAction สำหรับเก็บการเลือก
 
   Building({
     required this.name,
     required this.startTime,
     required this.endTime,
+    required this.selectedAction,
     this.isPumpOn = false,
     this.isLightOn = false,
-    this.selectedAction = BuildingAction.none, // ตั้งค่าเริ่มต้นให้เป็น none
   });
-}
-
-Future<TimeOfDay?> _selectTime(BuildContext context, TimeOfDay initialTime) async {
-  final TimeOfDay? picked = await showTimePicker(
-    context: context,
-    initialTime: initialTime,
-  );
-  return picked;
 }

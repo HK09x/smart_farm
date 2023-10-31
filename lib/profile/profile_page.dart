@@ -16,11 +16,12 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, required this.user}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  int _currentIndex = 0;
+  int _currentIndex = 4;
   String fullName = '';
   String phoneNumber = '';
   String email = '';
@@ -100,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Positioned(
                     top: 35,
                     left: 40,
-                    child: Container(
+                    child: SizedBox(
                       height: 330,
                       width: 330,
                       child: Container(
@@ -198,7 +199,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.grey[300],
+                        backgroundColor: Colors.grey[300],
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -229,7 +230,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           }
                         });
                       },
-                      child: Row(
+                      child: const Row(
                         children: [
                           Text(
                             '                          แก้ข้อมูลส่วนตัว                       ',
@@ -245,7 +246,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
@@ -253,7 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: 360,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.grey[300],
+                    backgroundColor: Colors.grey[300],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -266,7 +267,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     );
                   },
-                  child: Row(
+                  child: const Row(
                     children: [
                       Text(
                         '                          เปลี่ยนรหัสผ่าน                        ',
@@ -280,7 +281,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
@@ -288,13 +289,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: 360,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF2F4F4F),
+                    backgroundColor: const Color(0xFF2F4F4F),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                   onPressed: () async {
                     await FirebaseAuth.instance.signOut();
+                    // ignore: use_build_context_synchronously
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -302,18 +304,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     );
                   },
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Text(
-                          '                              ออกจากระบบ',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
+                  child: const Row(
+                    children: [
+                      Text(
+                        '                              ออกจากระบบ',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               )

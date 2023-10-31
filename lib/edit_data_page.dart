@@ -21,6 +21,7 @@ class EditDataPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditDataPageState createState() => _EditDataPageState();
 }
 
@@ -59,10 +60,8 @@ class _EditDataPageState extends State<EditDataPage> {
           .update(dataToSave);
 
       // อัปเดตข้อมูลเรียบร้อย
-      print('อัปเดตข้อมูลเรียบร้อยแล้ว');
     } catch (error) {
       // มีข้อผิดพลาดเกิดขึ้นในการบันทึกข้อมูล
-      print('เกิดข้อผิดพลาดในการบันทึกข้อมูล: $error');
     }
   }
 
@@ -148,14 +147,14 @@ class _EditDataPageState extends State<EditDataPage> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text('ข้อมูลไม่ครบถ้วน'),
-                        content: Text('กรุณากรอกข้อมูลให้ครบถ้วนก่อนบันทึก'),
+                        title: const Text('ข้อมูลไม่ครบถ้วน'),
+                        content: const Text('กรุณากรอกข้อมูลให้ครบถ้วนก่อนบันทึก'),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: Text('ตกลง'),
+                            child: const Text('ตกลง'),
                           ),
                         ],
                       );
@@ -164,7 +163,7 @@ class _EditDataPageState extends State<EditDataPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: const Color(0xFF2F4F4F),
+                backgroundColor: const Color(0xFF2F4F4F),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),

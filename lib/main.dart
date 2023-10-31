@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:smart_farm/home_page.dart';
 import 'package:smart_farm/login/sign_up_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  const AndroidInitializationSettings androidInitializationSettings =
+      AndroidInitializationSettings('ic_launcher');
+
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: androidInitializationSettings,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
   runApp(const MyApp());
 }
 
@@ -26,19 +39,14 @@ class MyApp extends StatelessWidget {
         future: FirebaseAuth.instance.authStateChanges().first,
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // กำลังโหลดสถานะ
             return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
-            // มีข้อผิดพลาดเกิดขึ้น
             return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
           } else {
-            // ตรวจสอบสถานะการเข้าสู่ระบบ
             final User? user = snapshot.data;
             if (user != null) {
-              // User เข้าสู่ระบบแล้ว
               return HomePage(user);
             } else {
-              // User ยังไม่ได้เข้าสู่ระบบ
               return const LoginPage();
             }
           }
@@ -68,7 +76,8 @@ class _LoginPageState extends State<LoginPage> {
         child: Padding(
           padding: const EdgeInsets.all(0.0),
           child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(), // ไม่ให้ Scroll ด้านล่าง
+            physics:
+                const NeverScrollableScrollPhysics(), // ไม่ให้ Scroll ด้านล่าง
             child: Column(
               children: [
                 SizedBox(

@@ -164,11 +164,10 @@ class _AddNotePageState extends State<AddNotePage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10),
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                       Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                     Container(
   padding: const EdgeInsets.all(0),
   height: 200,
   width: 1000,
@@ -209,25 +208,25 @@ class _AddNotePageState extends State<AddNotePage> {
                 const Spacer(),
                 Expanded(
                   child: TextButton(
-                    onPressed: () async {
-                      _takePicture();
-                    },
-                    child: const Icon(
-                      Icons.camera_alt_outlined,
-                      color: Colors.white,
-                    ),
+                  onPressed: () async {
+                    _takePicture();
+                  },
+                  child: const Icon(
+                    Icons.camera_alt_outlined,
+                    color: Colors.white,
+                  ),
                   ),
                 ),
                 const Spacer(),
                 Expanded(
                   child: TextButton(
-                    onPressed: () async {
-                      _pickImage();
-                    },
-                    child: const Icon(
-                      Icons.picture_in_picture_outlined,
-                      color: Colors.white,
-                    ),
+                  onPressed: () async {
+                    _pickImage();
+                  },
+                  child: const Icon(
+                    Icons.picture_in_picture_outlined,
+                    color: Colors.white,
+                  ),
                   ),
                 ),
                 const Spacer()
@@ -240,171 +239,170 @@ class _AddNotePageState extends State<AddNotePage> {
   ),
 ),
 
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            _selectDate(
-                                context); // เรียกใช้งานฟังก์ชันเพื่อเลือกวันที่
-                          },
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.calendar_today, // ไอคอนของปฏิทิน
-                                color: Colors.blue, // สีของไอคอน
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          _selectDate(
+                              context); // เรียกใช้งานฟังก์ชันเพื่อเลือกวันที่
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.calendar_today, // ไอคอนของปฏิทิน
+                              color: Colors.blue, // สีของไอคอน
+                            ),
+                            const SizedBox(
+                                width: 8), // ระยะห่างระหว่างไอคอนและข้อความ
+                            Text(
+                              selectedDate != null
+                                  ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}" // แสดงวันที่ที่ถูกเลือก
+                                  : "เลือกวันที่", // ถ้ายังไม่ได้เลือกวันที่
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors
+                                    .blue, // สีของข้อความเมื่อเลือกวันที่
                               ),
-                              const SizedBox(
-                                  width: 8), // ระยะห่างระหว่างไอคอนและข้อความ
-                              Text(
-                                selectedDate != null
-                                    ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}" // แสดงวันที่ที่ถูกเลือก
-                                    : "เลือกวันที่", // ถ้ายังไม่ได้เลือกวันที่
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors
-                                      .blue, // สีของข้อความเมื่อเลือกวันที่
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        TextField(
-                          controller: _houseController,
-                          decoration: InputDecoration(
-                            labelText: 'โรงเรือนที่ปลูก',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 20),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      TextField(
+                        controller: _houseController,
+                        decoration: InputDecoration(
+                          labelText: 'โรงเรือนที่ปลูก',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          onChanged: (houseName) {
-                            _fetchSensorDataForHouse(houseName);
-                          },
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
                         ),
-                        const SizedBox(
-                          height: 15,
+                        onChanged: (houseName) {
+                          _fetchSensorDataForHouse(houseName);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextField(
+                        controller: _plotController,
+                        decoration: InputDecoration(
+                          labelText: 'แปลงที่ปลูก',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
                         ),
-                        TextField(
-                          controller: _plotController,
-                          decoration: InputDecoration(
-                            labelText: 'แปลงที่ปลูก',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 20),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextField(
+                        controller: _temperatureController,
+                        decoration: InputDecoration(
+                          labelText: 'ค่าอุณหภูมิ   (°C)',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextField(
+                        controller: _humidityController,
+                        decoration: InputDecoration(
+                          labelText: 'ค่าความชื่น  (%)',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextField(
+                        controller: _soilMoistureController,
+                        decoration: InputDecoration(
+                          labelText: 'ค่าความชื่นในดิน  (%)',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextField(
+                        controller: _diseaseController,
+                        decoration: InputDecoration(
+                          labelText: 'การสำรวจโรค',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextField(
+                        controller: _goodVegetableController,
+                        decoration: InputDecoration(
+                          labelText: 'จำนวนผักที่รอด',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextField(
+                        controller: _badVegetableController,
+                        decoration: InputDecoration(
+                          labelText: 'จำนวนผักที่ตาย',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 40,
+                        width: 375,
+                        //width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF2F4F4F),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          onPressed: _addNote,
+                          child: const Text(
+                            '               บันทึก                ',
+                            style: TextStyle(fontSize: 20),
                           ),
                         ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        TextField(
-                          controller: _temperatureController,
-                          decoration: InputDecoration(
-                            labelText: 'ค่าอุณหภูมิ   (°C)',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 20),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        TextField(
-                          controller: _humidityController,
-                          decoration: InputDecoration(
-                            labelText: 'ค่าความชื่น  (%)',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 20),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        TextField(
-                          controller: _soilMoistureController,
-                          decoration: InputDecoration(
-                            labelText: 'ค่าความชื่นในดิน  (%)',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 20),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        TextField(
-                          controller: _diseaseController,
-                          decoration: InputDecoration(
-                            labelText: 'การสำรวจโรค',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 20),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        TextField(
-                          controller: _goodVegetableController,
-                          decoration: InputDecoration(
-                            labelText: 'จำนวนผักที่รอด',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 20),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        TextField(
-                          controller: _badVegetableController,
-                          decoration: InputDecoration(
-                            labelText: 'จำนวนผักที่ตาย',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 20),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          height: 40,
-                          width: 375,
-                          //width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: const Color(0xFF2F4F4F),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                            onPressed: _addNote,
-                            child: const Text(
-                              '               บันทึก                ',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -415,40 +413,6 @@ class _AddNotePageState extends State<AddNotePage> {
     );
   }
 
-  Future<String?> _showImageSourceSelectionDialog() async {
-    return showDialog<String>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('เลือกแหล่งที่มาของรูปภาพ'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop('Gallery');
-                  },
-                  child: const ListTile(
-                    leading: Icon(Icons.photo),
-                    title: Text('เลือกจากแกลเรียม'),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop('Camera');
-                  },
-                  child: const ListTile(
-                    leading: Icon(Icons.camera),
-                    title: Text('ถ่ายรูป'),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   Future<void> _takePicture() async {
     final pickedFile =
@@ -501,8 +465,8 @@ class _AddNotePageState extends State<AddNotePage> {
           _soilMoistureController.text = data['soilMoisture'].toString();
         });
       }
+    // ignore: empty_catches
     } catch (e) {
-      print('Error fetching sensor data: $e');
     }
   }
 }

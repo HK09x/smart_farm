@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:smart_farm/auto_setting.dart';
 import 'package:smart_farm/camera_page.dart';
 import 'package:smart_farm/edit_data_page.dart';
 import 'package:smart_farm/home_page.dart';
 import 'package:smart_farm/note/note_page.dart';
+import 'package:smart_farm/notifier.dart';
 import 'package:smart_farm/profile/profile_page.dart';
 import 'package:smart_farm/set_time_page.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HousePage extends StatefulWidget {
   final User? user;
@@ -727,49 +731,42 @@ class _HousePageState extends State<HousePage> {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Container(
-                                              child: Column(
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  Switch(
-                                                    value: lampState == 1,
-                                                    onChanged: (value) {
-                                                      int newLampState =
-                                                          value ? 1 : 0;
-                                                      setState(() {
-                                                        lampState =
-                                                            newLampState;
-                                                      });
-                                                      FirebaseFirestore.instance
-                                                          .collection(
-                                                              'sensor_data')
-                                                          .doc(widget.user?.uid)
-                                                          .collection(
-                                                              widget.houseName)
-                                                          .doc('plot')
-                                                          .update({
-                                                        'lamp_state':
-                                                            newLampState,
-                                                      }).then((_) {
-                                                        print(
-                                                            'อัปเดตสถานะหลอดไฟสำเร็จ');
-                                                      }).catchError((error) {
-                                                        print(
-                                                            'เกิดข้อผิดพลาดในการอัปเดตหลอดไฟ: $error');
-                                                      });
-                                                    },
-                                                    activeColor: Colors.white,
-                                                    activeTrackColor:
-                                                        Colors.white,
-                                                    inactiveThumbColor:
-                                                        Colors.grey[300],
-                                                    inactiveTrackColor:
-                                                        Colors.grey[300],
-                                                  ),
-                                                ],
-                                              ),
+                                            Column(
+                                              children: [
+                                                const SizedBox(
+                                                  height: 13,
+                                                ),
+                                                Switch(
+                                                  value: lampState == 1,
+                                                  onChanged: (value) {
+                                                    int newLampState =
+                                                        value ? 1 : 0;
+                                                    setState(() {
+                                                      lampState = newLampState;
+                                                    });
+                                                    FirebaseFirestore.instance
+                                                        .collection(
+                                                            'sensor_data')
+                                                        .doc(widget.user?.uid)
+                                                        .collection(
+                                                            widget.houseName)
+                                                        .doc('plot')
+                                                        .update({
+                                                          'lamp_state':
+                                                              newLampState,
+                                                        })
+                                                        .then((_) {})
+                                                        .catchError((error) {});
+                                                  },
+                                                  activeColor: Colors.white,
+                                                  activeTrackColor:
+                                                      Colors.white,
+                                                  inactiveThumbColor:
+                                                      Colors.grey[300],
+                                                  inactiveTrackColor:
+                                                      Colors.grey[300],
+                                                ),
+                                              ],
                                             )
                                           ],
                                         ),
@@ -807,49 +804,42 @@ class _HousePageState extends State<HousePage> {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Container(
-                                              child: Column(
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  Switch(
-                                                    value: pumpState == 1,
-                                                    onChanged: (value) {
-                                                      int newPumpState =
-                                                          value ? 1 : 0;
-                                                      setState(() {
-                                                        pumpState =
-                                                            newPumpState;
-                                                      });
-                                                      FirebaseFirestore.instance
-                                                          .collection(
-                                                              'sensor_data')
-                                                          .doc(widget.user?.uid)
-                                                          .collection(
-                                                              widget.houseName)
-                                                          .doc('plot')
-                                                          .update({
-                                                        'pump_state':
-                                                            newPumpState,
-                                                      }).then((_) {
-                                                        print(
-                                                            'อัปเดตสถานะปั๊มน้ำสำเร็จ');
-                                                      }).catchError((error) {
-                                                        print(
-                                                            'เกิดข้อผิดพลาดในการอัปเดตปั๊มน้ำ: $error');
-                                                      });
-                                                    },
-                                                    activeColor: Colors.white,
-                                                    activeTrackColor:
-                                                        Colors.white,
-                                                    inactiveThumbColor:
-                                                        Colors.grey[300],
-                                                    inactiveTrackColor:
-                                                        Colors.grey[300],
-                                                  ),
-                                                ],
-                                              ),
+                                            Column(
+                                              children: [
+                                                const SizedBox(
+                                                  height: 13,
+                                                ),
+                                                Switch(
+                                                  value: pumpState == 1,
+                                                  onChanged: (value) {
+                                                    int newPumpState =
+                                                        value ? 1 : 0;
+                                                    setState(() {
+                                                      pumpState = newPumpState;
+                                                    });
+                                                    FirebaseFirestore.instance
+                                                        .collection(
+                                                            'sensor_data')
+                                                        .doc(widget.user?.uid)
+                                                        .collection(
+                                                            widget.houseName)
+                                                        .doc('plot')
+                                                        .update({
+                                                          'pump_state':
+                                                              newPumpState,
+                                                        })
+                                                        .then((_) {})
+                                                        .catchError((error) {});
+                                                  },
+                                                  activeColor: Colors.white,
+                                                  activeTrackColor:
+                                                      Colors.white,
+                                                  inactiveThumbColor:
+                                                      Colors.grey[300],
+                                                  inactiveTrackColor:
+                                                      Colors.grey[300],
+                                                ),
+                                              ],
                                             )
                                           ],
                                         ),
@@ -857,7 +847,165 @@ class _HousePageState extends State<HousePage> {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xFF2F4F4F),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => AutoSetting(
+                                                user: widget.user,
+                                                houseName: widget.houseName,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text(
+                                          'ตั้งค่าการทำงานอัตโนมัติ',
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
                                 // เพิ่มส่วน UI ที่คุณต้องการแสดงต่อไปได้ที่นี่
+                                SizedBox(
+                                  child: StreamBuilder<QuerySnapshot>(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(widget.user?.uid)
+                                        .collection(widget.houseName)
+                                        .orderBy(FieldPath
+                                            .documentId) // เรียงลำดับตาม Document ID
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError) {
+                                        return Text(
+                                            'เกิดข้อผิดพลาด: ${snapshot.error}');
+                                      }
+
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const CircularProgressIndicator();
+                                      }
+
+                                      if (!snapshot.hasData ||
+                                          snapshot.data!.docs.isEmpty) {
+                                        return const Text('');
+                                      }
+
+                                      final sensorData = snapshot.data!.docs;
+
+                                      final List<ChartData> chartData =
+                                          sensorData.map((data) {
+                                        final humidity =
+                                            (data['humidity'] as num)
+                                                .toDouble();
+                                        final temperature =
+                                            (data['temperature'] as num)
+                                                .toDouble();
+                                        final soilMoisture =
+                                            (data['soilMoisture'] as num)
+                                                .toDouble();
+                                        final timestamp = DateTime.parse(data
+                                            .id); // แปลง Document ID เป็น DateTime
+
+                                        // แปลง timestamp เป็นวันที่และเวลา
+                                        final formattedTimestamp =
+                                            DateFormat('dd/MM/yyyy HH:mm')
+                                                .format(timestamp);
+
+                                        return ChartData(
+                                          timestamp: formattedTimestamp,
+                                          humidity: humidity,
+                                          temperature: temperature,
+                                          soilMoisture: soilMoisture,
+                                        );
+                                      }).toList();
+
+                                      return Container(
+                                        margin: const EdgeInsets.all(8.0),
+                                        height: 300,
+                                        width: 500,
+                                        child: SfCartesianChart(
+                                          primaryXAxis: CategoryAxis(
+                                            majorGridLines: const MajorGridLines(
+                                                width:
+                                                    0), // ซ่อนเส้นกริดบนแกน X
+                                            majorTickLines: const MajorTickLines(
+                                                size: 0), // ซ่อนขีดบนแกน X
+                                            labelIntersectAction:
+                                                AxisLabelIntersectAction
+                                                    .rotate45, // หมุนป้ายราคาที่แสดงบนแกน X
+                                            labelStyle: const TextStyle(
+                                                fontSize:
+                                                    0), // ซ่อนข้อความบนแกน X
+                                          ),
+                                          primaryYAxis: NumericAxis(),
+                                          tooltipBehavior: TooltipBehavior(
+                                            enable: true,
+                                            format:
+                                                'point.x : point.y%', // รูปแบบสำหรับ Tooltip
+                                          ),
+                                          series: <ChartSeries>[
+                                            LineSeries<ChartData, String>(
+                                              name: 'Humidity',
+                                              dataSource: chartData,
+                                              xValueMapper: (data, _) =>
+                                                  data.timestamp,
+                                              yValueMapper: (data, _) =>
+                                                  data.humidity,
+                                              width: 2,
+                                              color: Colors.blue,
+                                            ),
+                                            LineSeries<ChartData, String>(
+                                              name: 'Temperature',
+                                              dataSource: chartData,
+                                              xValueMapper: (data, _) =>
+                                                  data.timestamp,
+                                              yValueMapper: (data, _) =>
+                                                  data.temperature,
+                                              width: 2,
+                                              color: Colors.green,
+                                            ),
+                                            LineSeries<ChartData, String>(
+                                              name: 'Soil Moisture',
+                                              dataSource: chartData,
+                                              xValueMapper: (data, _) =>
+                                                  data.timestamp,
+                                              yValueMapper: (data, _) =>
+                                                  data.soilMoisture,
+                                              width: 2,
+                                              color: Colors.orange,
+                                            ),
+                                          ],
+                                          legend: const Legend(
+                                            isVisible: true,
+                                            position: LegendPosition.bottom,
+                                            textStyle: TextStyle(fontSize: 12),
+                                            overflowMode:
+                                                LegendItemOverflowMode.wrap,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -909,11 +1057,11 @@ class _HousePageState extends State<HousePage> {
               case 3:
                 // เส้นทางสำหรับไอคอน "ตั้งเวลา"
                 Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SetTimePage(user: widget.user),
-                        ),
-                      );
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SetTimePage(user: widget.user),
+                  ),
+                );
                 break;
               case 4:
                 // เส้นทางสำหรับไอคอน "โปรไฟล์"
@@ -956,7 +1104,20 @@ class _HousePageState extends State<HousePage> {
           ],
         ),
       ),
-      
     );
   }
+}
+
+class ChartData {
+  final String timestamp;
+  final double humidity;
+  final double temperature;
+  final double soilMoisture;
+
+  ChartData({
+    required this.timestamp,
+    required this.humidity,
+    required this.temperature,
+    required this.soilMoisture,
+  });
 }

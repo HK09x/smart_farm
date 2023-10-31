@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_farm/note/add_note_page.dart';
 import 'package:smart_farm/note/edit_note_page.dart';
 
 class ViewNotesPage extends StatefulWidget {
@@ -13,6 +12,7 @@ class ViewNotesPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ViewNotesPageState createState() => _ViewNotesPageState();
 }
 
@@ -222,12 +222,14 @@ class _ViewNotesPageState extends State<ViewNotesPage> {
           .doc(noteId)
           .delete();
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('บันทึกถูกลบแล้ว'),
         ),
       );
     } catch (error) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('เกิดข้อผิดพลาดในการลบบันทึก'),

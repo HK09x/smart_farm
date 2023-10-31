@@ -17,7 +17,7 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
-  int _currentIndex = 0;
+  int _currentIndex = 2;
   Stream<DocumentSnapshot>? getSensorData(String houseName) {
     return FirebaseFirestore.instance
         .collection('sensor_data')
@@ -68,7 +68,7 @@ class _CameraPageState extends State<CameraPage> {
                           width: 380,
                           height: 300,
                           child: Card(
-                            color: Color.fromARGB(255, 80, 100, 100),
+                            color: const Color.fromARGB(255, 80, 100, 100),
                             elevation: 4,
                             margin: const EdgeInsets.all(16),
                             child: Column(
@@ -83,7 +83,7 @@ class _CameraPageState extends State<CameraPage> {
                                 const SizedBox(height: 9.0),
                                 Row(
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     const Icon(
@@ -91,7 +91,7 @@ class _CameraPageState extends State<CameraPage> {
                                       size: 40.0,
                                       color: Colors.white,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 8,
                                     ),
                                     Text(

@@ -71,7 +71,7 @@ class _SignUpPageState extends State<SignUpPage> {
           'img': img,
           'info': info,
         });
-        final String house0 = 'house0'; // แก้ตามชื่อโรงเรือนที่ต้องการ
+        const String house0 = 'house0'; // แก้ตามชื่อโรงเรือนที่ต้องการ
         await FirebaseFirestore.instance
             .collection('sensor_data')
             .doc(uid)
@@ -80,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
             .set({
           'info': '',
         });
-        final String house1 = 'house1'; // แก้ตามชื่อโรงเรือนที่ต้องการ
+        const String house1 = 'house1'; // แก้ตามชื่อโรงเรือนที่ต้องการ
         await FirebaseFirestore.instance
             .collection('sensor_data')
             .doc(uid)
@@ -89,7 +89,7 @@ class _SignUpPageState extends State<SignUpPage> {
             .set({
           'info': '',
         });
-        final String house2 = 'house2'; // แก้ตามชื่อโรงเรือนที่ต้องการ
+        const String house2 = 'house2'; // แก้ตามชื่อโรงเรือนที่ต้องการ
         await FirebaseFirestore.instance
             .collection('sensor_data')
             .doc(uid)
@@ -98,7 +98,7 @@ class _SignUpPageState extends State<SignUpPage> {
             .set({
           'info': '',
         });
-        final String house3 = 'house3'; // แก้ตามชื่อโรงเรือนที่ต้องการ
+        const String house3 = 'house3'; // แก้ตามชื่อโรงเรือนที่ต้องการ
         await FirebaseFirestore.instance
             .collection('sensor_data')
             .doc(uid)
@@ -107,7 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
             .set({
           'info': '',
         });
-        final String house4 = 'house4'; // แก้ตามชื่อโรงเรือนที่ต้องการ
+        const String house4 = 'house4'; // แก้ตามชื่อโรงเรือนที่ต้องการ
         await FirebaseFirestore.instance
             .collection('sensor_data')
             .doc(uid)
@@ -125,7 +125,6 @@ class _SignUpPageState extends State<SignUpPage> {
             _emailErrorText = 'อีเมลนี้ถูกใช้งานแล้ว';
           });
         } else {
-          print('เกิดข้อผิดพลาดในการสมัครสมาชิก: ${error.message}');
         }
       }
     } else {
@@ -319,6 +318,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     onPressed: () async {
                                       await _handleSignUp();
                                       if (_isSignUpSuccess) {
+                                        // ignore: use_build_context_synchronously
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
